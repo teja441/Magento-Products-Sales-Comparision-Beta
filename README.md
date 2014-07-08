@@ -26,5 +26,10 @@ Folder Structure
 
 
 ===========================================
+Magento Backend Menu Navigation:
+
+Main Menu -> Reports -> Graphs
+=============================================
+
 
 Refer [this link](https://developers.google.com/chart/image/docs/chart_params) for the params that can be used in preparing a chart/graph
