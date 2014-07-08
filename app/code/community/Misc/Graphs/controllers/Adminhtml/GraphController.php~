@@ -1,0 +1,21 @@
+<?php
+
+class Misc_Graphs_Adminhtml_GraphController extends Mage_Adminhtml_Controller_Action {
+
+    public function indexAction()
+    {
+/*        $this->_title($this->__('Customers'))->_title($this->__('Manage Customers'));
+        $this->loadLayout();
+        $this->_setActiveMenu('report');
+        $this->_addContent(
+            $this->getLayout()->createBlock('adminhtml/customer', 'customer')
+        );
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Customers'), Mage::helper('adminhtml')->__('Customers'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Manage Customers'), Mage::helper('adminhtml')->__('Manage Customers'));
+        $this->renderLayout();*/
+echo "test";
+    }
+
+}
+
+

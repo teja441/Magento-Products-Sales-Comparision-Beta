@@ -1,0 +1,47 @@
+<config>
+    <tabs>
+        <productslider_tab module="productslider" translate="label">
+            <label>Product Slider</label>
+            <sort_order>100</sort_order>
+        </productslider_tab>
+    </tabs>
+    <sections>
+        <productslider_section module="productslider" translate="label">
+            <label>Product Slider</label>
+            <sort_order>200</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <tab>productslider_tab</tab>
+            <groups>
+                <productslider_group translate="label">
+                    <label>Product Slider</label>
+                   <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                         <productslider_horizontal translate="label tooltip comment">
+                            <label>Categories for Horizontal Slider</label>
+                            <tooltip>Field ToolTip</tooltip>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_type>text</frontend_type>
+			    <comment>Use commas ',' to seperate products id's</comment>
+                        </productslider_horizontal>
+                        <productslider_vertical translate="label tooltip comment">
+                            <label>Categories for Vertical Slider</label>
+                            <tooltip>Field ToolTip</tooltip>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_type>text</frontend_type>
+			    <comment>Use commas ',' to seperate products id's</comment>
+                        </productslider_vertical>
+                   </fields>
+                </productslider_group>
+            </groups>
+        </productslider_section>
+    </sections>
+</config>
