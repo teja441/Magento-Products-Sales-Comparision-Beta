@@ -11,7 +11,9 @@ This Module will only represent the QUANTITY of a PRODUCT (No revenue included;w
 
 Though it uses a simple Javascript and Ajax, no external jQuery apis are used, so there shouldn't be any jQuery conflicts.
 
-![Screenshot](http://imgur.com/Smqer6Q)
+![Screenshot](http://i.imgur.com/Smqer6Q.png)
+
+
 
 ==========================
 Folder Structure
