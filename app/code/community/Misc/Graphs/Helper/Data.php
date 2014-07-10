@@ -65,16 +65,16 @@ class Misc_Graphs_Helper_Data extends Mage_Core_Helper_Abstract {
 		$connection = Mage::getSingleton('core/resource')->getConnection('core_read');
 		
 		$tableName = Mage::getSingleton('core/resource')->getTableName('sales_flat_order_item');
-		Mage::log($tableName,3,"select_query.log");
+	
 			foreach($dates as $date):		
 						/*$select = $connection->select()
 												->from($tableName, count('*')) // select * from tablename or use array('id','title') selected values
 												->where('created_at',array('like' => '%{$date}%'));         */      // where id =1					
 			$select="select count(*) from {$tableName} where created_at like '%{$date}%'  and product_id='{$product_id}'";
-			Mage::log($select,3,"select_query.log");
+	
 			$graphdata['quantity'][] = $connection->fetchOne($select); // return all rows
 		endforeach;
-		Mage::log($graphdata,3,"graph_collection_data.log");
+	
 		
 				return $graphdata;
 	}
