@@ -3,7 +3,7 @@
        <report translate="title" module="graphs">
           <children>
                <graphs translate="title" >
-                    <title>Graphs</title>
+                    <title>Products Comparision Charts</title>
                     <sort_order>10</sort_order>
                     <action>adminhtml/graphs/index</action>
                </graphs>

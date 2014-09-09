@@ -59,7 +59,7 @@ class Misc_Graphs_Helper_Data extends Mage_Core_Helper_Abstract {
 		return $storeNames;
 	}
 
-	public function getGraphData($dates,$product_id){
+	public function getGraphData($dates,$productlist){
 
 		$graphdata=array();
 		$connection = Mage::getSingleton('core/resource')->getConnection('core_read');
@@ -67,18 +67,20 @@ class Misc_Graphs_Helper_Data extends Mage_Core_Helper_Abstract {
 		$tableName = Mage::getSingleton('core/resource')->getTableName('sales_flat_order_item');
 		
 		foreach($dates as $date):		
-																					
+																									
 				foreach($productlist as $product_id):
-										
+						
 						/*$select = $connection->select(count('*'))
 												->from($tableName) // select * from tablename or use array('id','title') selected values
-												->where("created_at like '%{$date}%' and product_id='{$product_id}' ");               // where id =1			*/						
-				$select="select count(*) from {$tableName} where created_at like '%{$date}%'  and product_id='{$product_id}'";
-				$graphdata['quantity'][$product_id][] = $connection->fetchOne($select); // returns no of orders
+												->where("created_at like '%{$date}%' and product_id='{$product_id}' ");               // where id =1			*/
+				
+				$select="select count(*) from {$tableName} where created_at like '%{$date}%'  and product_id='{$product_id}'";				
+				$graphdata['quantity'][$product_id][] = $connection->fetchOne($select); // return all rows
+
 				endforeach;
 		endforeach;
-			
-				return $graphdata;
+		
+		return $graphdata;
 	}
 
 }

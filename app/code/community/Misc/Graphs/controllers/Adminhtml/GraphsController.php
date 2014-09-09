@@ -82,7 +82,6 @@ class Misc_Graphs_Adminhtml_GraphsController extends Mage_Adminhtml_Controller_A
         
 	$post=$this->getRequest()->getPost();
 	
-	Mage::log($post,3,'graph_parameters.log');
 	$timezoneLocal = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE);
 
 		list ($dateStart, $dateEnd) = Mage::getResourceModel('reports/order_collection')
@@ -244,7 +243,7 @@ class Misc_Graphs_Adminhtml_GraphsController extends Mage_Adminhtml_Controller_A
                                     break;
                                 case '1y':
                                 case '2y':
-									Mage::log($this->_axisLabels,3,"debug_graphs.log");
+									
                                     $formats = Mage::app()->getLocale()->getTranslationList('datetime');
                                     $format = isset($formats['yyMM']) ? $formats['yyMM'] : 'MM/yyyy';
                                     $format = str_replace(array("yyyy", "yy", "MM"), array("Y", "y", "m"), $format);
