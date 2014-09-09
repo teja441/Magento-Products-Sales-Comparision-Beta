@@ -5,7 +5,9 @@ Sales Comparision of two Products sold over a Period
 
 This Module gives you a graphical representation of the quantity of two product sold over a period on your magento store.
 
-![Screenshot](http://i.imgur.com/Smqer6Q.png)
+This module is still in Beta Testing.
+
+![Screenshot](http://i.imgur.com/mytZ33t.png)
 
 
 
