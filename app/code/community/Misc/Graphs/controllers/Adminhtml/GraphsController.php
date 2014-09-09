@@ -82,6 +82,7 @@ class Misc_Graphs_Adminhtml_GraphsController extends Mage_Adminhtml_Controller_A
         
 	$post=$this->getRequest()->getPost();
 	
+	
 	$timezoneLocal = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE);
 
 		list ($dateStart, $dateEnd) = Mage::getResourceModel('reports/order_collection')
@@ -178,7 +179,7 @@ class Misc_Graphs_Adminhtml_GraphsController extends Mage_Adminhtml_Controller_A
             $yorigin = 0;
         }
 
-        $chartdata = array();
+        
 			
 			$params['chd'] = "e:";
             $dataDelimiter = "";
@@ -187,8 +188,10 @@ class Misc_Graphs_Adminhtml_GraphsController extends Mage_Adminhtml_Controller_A
             
 			// EXTENDED ENCODING
 			foreach($product_list as $productid){
+				$chartdata = array();	
                 for ($j = 0; $j < sizeof($graphData['quantity'][$productid]); $j++) {
                     $currentvalue = $graphData['quantity'][$productid][$j];
+                    
                     if (is_numeric($currentvalue)) {
                         if ($yrange) {
                          $ylocation = (4095 * ($yorigin + $currentvalue) / $yrange);
@@ -206,13 +209,14 @@ class Misc_Graphs_Adminhtml_GraphsController extends Mage_Adminhtml_Controller_A
                     }
 
 			  }
-			        $buffer = implode('', $chartdata);
-
+			        $buffer = implode('', $chartdata);			        
 					$buffer = rtrim($buffer, $dataSetdelimiter);
 					$buffer = rtrim($buffer, $dataDelimiter);
 					$buffer = str_replace(($dataDelimiter . $dataSetdelimiter), $dataSetdelimiter, $buffer);
-
+					
 					$params['chd'] .= $buffer.',';
+					$buffer=null;
+					$chartdata=null;
 				}
 					$labelBuffer = "";
 					$valueBuffer = array();
