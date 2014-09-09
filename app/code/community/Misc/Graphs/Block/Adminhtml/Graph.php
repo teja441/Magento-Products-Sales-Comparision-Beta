@@ -38,13 +38,14 @@ class Misc_Graphs_Block_Adminhtml_Graph extends Mage_Adminhtml_Block_Widget_Form
 			    onComplete: function(transport) { 
 		           var response = transport.responseText;
                            $('categories').update(response);
+                           $('categories2').update(response);
  				}  
 			   });
                             }
                          </script>"); 
 
         $fieldset->addField('categories', 'select', array(
-          'label'     => Mage::helper('graphs')->__('Select Category'),
+          'label'     => Mage::helper('graphs')->__('Select Category One'),
           'class'     => 'required-entry',
           'required'  => true,
           'name'      => 'categories',
@@ -60,9 +61,6 @@ class Misc_Graphs_Block_Adminhtml_Graph extends Mage_Adminhtml_Block_Widget_Form
           ))->setAfterElementHtml("<script type='text/javascript'>
                             function getProducts(category){
 			     var reloadurl = '". $this->getUrl('*/*/getproducts')."';  
-			     //var div = document.createElement('div');
-				 //div.className = 'graphresponse';
-				//document.getElementById('anchor-content').appendChild(div);
 			    new Ajax.Request(reloadurl, {  
 			    type: 'post',  
 			    parameters: {category: category},  
@@ -78,7 +76,7 @@ class Misc_Graphs_Block_Adminhtml_Graph extends Mage_Adminhtml_Block_Widget_Form
                          </script>");
  
 	$fieldset->addField('products', 'select', array(
-          'label'     => Mage::helper('graphs')->__('Select Product'),
+          'label'     => Mage::helper('graphs')->__('Select Product One'),
           'class'     => 'required-entry',
           'required'  => true,
           'name'      => 'products',
@@ -90,6 +88,53 @@ class Misc_Graphs_Block_Adminhtml_Graph extends Mage_Adminhtml_Block_Widget_Form
           'readonly' => false,
           'tabindex' => 1
           ))->setAfterElementHtml();
+    
+      
+   $fieldset->addField('categories2', 'select', array(
+          'label'     => Mage::helper('graphs')->__('Select Category Two'),
+          'class'     => 'required-entry',
+          'required'  => true,
+          'name'      => 'categories2',
+          'onclick' => "",
+		  'onchange' => "getcompare(this.value)",
+          'value'  => '0',
+          'values' => '',
+          'disabled' => false,
+          'readonly' => false,
+          'after_element_html' => '<small>Comments</small>',
+          'tabindex' => 1,
+	  'class'  => 'ajax'	
+          ))->setAfterElementHtml("<script type='text/javascript'>
+                            function getcompare(category){
+			     var reloadurl = '". $this->getUrl('*/*/getproducts')."';  
+			    
+			    new Ajax.Request(reloadurl, {  
+			    type: 'post',  
+			    parameters: {category: category},  
+			    onLoading: function (transport) {
+                           $('compare2').update('Searching...');
+	                    },
+			    onComplete: function(transport) { 
+		           var response = transport.responseText;
+                           $('compare2').update(response);
+ 				}  
+			   });
+                            }
+                         </script>");
+                         
+     $fieldset->addField('compare2', 'select', array(
+          'label'     => Mage::helper('graphs')->__('Select Product Two'),
+          'class'     => 'required-entry',
+          'required'  => true,
+          'name'      => 'compare2',
+          'onclick' => "",
+          'onchange' => "",
+          'value'  => '0',
+          'values' => '',
+          'disabled' => false,
+          'readonly' => false,
+          'tabindex' => 1
+          ))->setAfterElementHtml();           
                          
 	$fieldset->addField('period', 'select', array(
           'label'     => Mage::helper('graphs')->__('Select Period'),
@@ -97,21 +142,31 @@ class Misc_Graphs_Block_Adminhtml_Graph extends Mage_Adminhtml_Block_Widget_Form
           'required'  => true,
           'name'      => 'period',
           'onclick' => "",
-          'onchange' => "getgraph(this.value)",
           'value'  => '0',
           'values' => $range,
           'disabled' => false,
           'readonly' => false,
           'tabindex' => 1
-          ))->setAfterElementHtml("<script type='text/javascript'>
-                            function getgraph(range){
-					if(range!='0'){			
+          ));
+
+	$fieldset->addField('submit', 'submit', array(
+//          'label'     => Mage::helper('graphs')->__('Submit'),
+          'type'     => 'button',
+		  'onclick' => "getgraph()",
+          'required'  => true,
+          'value'  => 'Submit',
+          'tabindex' => 1
+        ))->setAfterElementHtml("<script type='text/javascript'>
+                            function getgraph(){
+					var period = document.getElementsByName('period')[0].value; 	
+					var compare2 = document.getElementsByName('compare2')[0].value; 
+					if(period!='0'){			
 			     var reloadurl = '". $this->getUrl('*/*/getgraph')."';  
-				 var product = document.getElementsByName('products')[0].value; 	
+				 var product = document.getElementsByName('products')[0].value; 					 
 				//alert(product)	;alert(range)	;	 
 			    new Ajax.Request(reloadurl, {  
-			    type: 'post',  
-			    parameters: {product: product,range:range},  			    
+			    type: 'post',
+			    parameters: {product: product,range:period,compare2:compare2},  			    
 			    onComplete: function(transport) { 
 		           var response = transport.responseText; 
 		           //alert(response);

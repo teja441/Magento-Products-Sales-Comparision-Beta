@@ -73,8 +73,8 @@ class Misc_Graphs_Adminhtml_GraphsController extends Mage_Adminhtml_Controller_A
        $params = array(
             'cht'  => 'lc',    					// chart type
             'chf'  => 'bg,s,f4f4f4|c,lg,90,ffffff,0.1,ededed,0', //background fills for the chart
-            'chm'  => 'B,f4d4b2,0,0,0', 		// line fills
-            'chco' => 'db4814',					//Series Colors
+         //   'chm'  => 'B,f4d4b2,0,0,0|B,FF0000,1,1,0|B,00FF00,2,2,0', 		// line fills
+            'chco' => 'db4814,1919D1',					//Series Colors
             'chs'  => '587x300',				// chart size <width>x<height>
 			'chxt' => 'x,y',					// visible axes
 			//'chof' => 'validate'				// output format (png,gif,json,html{when chof='validate'})
@@ -82,6 +82,7 @@ class Misc_Graphs_Adminhtml_GraphsController extends Mage_Adminhtml_Controller_A
         
 	$post=$this->getRequest()->getPost();
 	
+	Mage::log($post,3,'graph_parameters.log');
 	$timezoneLocal = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE);
 
 		list ($dateStart, $dateEnd) = Mage::getResourceModel('reports/order_collection')
@@ -116,7 +117,10 @@ class Misc_Graphs_Adminhtml_GraphsController extends Mage_Adminhtml_Controller_A
 
 		$graphData=array();
 		
-		$graphData=Mage::Helper('graphs')->getGraphData($dates,$post['product']);
+		$product_list=array('product1'=>$post['product'],
+							'product2'=>$post['compare2']
+							);	
+		$graphData=Mage::Helper('graphs')->getGraphData($dates,$product_list);
 
         /**
          * setting skip step
@@ -143,9 +147,9 @@ class Misc_Graphs_Adminhtml_GraphsController extends Mage_Adminhtml_Controller_A
         }
         
         $this->_axisLabels['x'] = $dates;
-		$this->_axisLabels['y'] = $graphData['quantity'];
+		$this->_axisLabels['y'] = $graphData['quantity'][$post['product']];
 		
-		foreach ($graphData as $index => $serie) {
+		foreach ($graphData['quantity'] as $index => $serie) {
             $localmaxlength[$index] = sizeof($serie);
             $localmaxvalue[$index] = max($serie);
             $localminvalue[$index] = min($serie);
@@ -183,12 +187,10 @@ class Misc_Graphs_Adminhtml_GraphsController extends Mage_Adminhtml_Controller_A
             $dataMissing = "__";
             
 			// EXTENDED ENCODING
-                for ($j = 0; $j < sizeof($graphData['quantity']); $j++) {
-                    $currentvalue = $graphData['quantity'][$j];
-					Mage::log($graphData,3,"ylocation_map_graph.log");
-                    Mage::log($currentvalue,3,"ylocation_map.log");
+			foreach($product_list as $productid){
+                for ($j = 0; $j < sizeof($graphData['quantity'][$productid]); $j++) {
+                    $currentvalue = $graphData['quantity'][$productid][$j];
                     if (is_numeric($currentvalue)) {
-						Mage::log($yrange,3,"ylocation_map.log");
                         if ($yrange) {
                          $ylocation = (4095 * ($yorigin + $currentvalue) / $yrange);
 
@@ -211,8 +213,8 @@ class Misc_Graphs_Adminhtml_GraphsController extends Mage_Adminhtml_Controller_A
 					$buffer = rtrim($buffer, $dataDelimiter);
 					$buffer = str_replace(($dataDelimiter . $dataSetdelimiter), $dataSetdelimiter, $buffer);
 
-					$params['chd'] .= $buffer;
-
+					$params['chd'] .= $buffer.',';
+				}
 					$labelBuffer = "";
 					$valueBuffer = array();
 					$rangeBuffer = "";
@@ -254,9 +256,7 @@ class Misc_Graphs_Adminhtml_GraphsController extends Mage_Adminhtml_Controller_A
                         }
 
                     }
-					
-		
-					
+										
                     $tmpstring = implode('|', $this->_axisLabels[$idx]);
 
                     $valueBuffer[] = $indexid . ":|" . $tmpstring;
@@ -284,14 +284,14 @@ class Misc_Graphs_Adminhtml_GraphsController extends Mage_Adminhtml_Controller_A
             $params['chg'] = $deltaX . ',' . $deltaY . ',1,0';
         }
         
-        Mage::log($params,3,"graph_controller_params.log");
+
 			$p = array();
             foreach ($params as $name => $value) {
                 $p[] = $name . '=' .urlencode($value);
             }
 
             $url= Mage_Adminhtml_Block_Dashboard_Graph::API_URL . '?' . implode('&', $p);
-		
+
 				echo $url;
 	}
 
